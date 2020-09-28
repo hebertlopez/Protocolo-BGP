@@ -1,52 +1,49 @@
-# Prerequisites
-*.d
+// Este seria MYLIB
 
-# Object files
-*.o
-*.ko
-*.obj
-*.elf
+#ifndef MY_LIB
+#define MY_LIB
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+ 
+typedef enum
+{
+    idle = 0,
+    connect = 1,
+    open = 2,
+    keepalive = 3,
+    notification = 4,
+    stablished = 5
+    
+} estados_t;  
 
-# Linker output
-*.ilk
-*.map
-*.exp
+typedef struct
+{
+    char idle;            // sin conexion actual
+    char connect;         // conectando
+    char open;            // conectado
+    char keepalive;       // mantener conexion
+    char notification;    // desconectando
+    char stablished;      // desconectado
+     
+    
+} conexion_t;
 
-# Precompiled Headers
-*.gch
-*.pch
+conexion_t f_inicio(void); // lee el archivo de configuraciÃ³n y carga las variables.
+estados_t f_idle(conexion_t);
+estados_t f_connect(conexion_t);
+estados_t f_open(conexion_t);
+estados_t f_keepalive(conexion_t);
+estados_t f_notification(conexion_t);
+estados_t f_stablished(conexion_t);
 
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
+char *getKey(char *key);
+conexion_t parseConfig(char *);
 
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
+char leerconexion(void);
 
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
+void conectando(conexion_t);
+void desconectando(conexion_t);
+void manteniendoconectando(conexion_t);
 
-# Debug files
-*.dSYM/
-*.su
-*.idb
-*.pdb
-
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
+#endif
