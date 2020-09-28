@@ -1,0 +1,100 @@
+# Protocolo-BGP
+//MIS FUNCIONES
+
+
+#include "mylib.h"
+	
+	char *getKey(char *key)
+	{
+	    char i = 0;
+	
+	    while (*(key + i) != ' ')
+	    {
+	        i++;
+	    }
+	    *(key + i) = 0;
+	    return key + i + 1;
+	}
+	
+	conexion_t parseConfig(char *filename){
+	    FILE *conf;
+	    char cadena[40], *key, *val;
+	    char variables[2][20] = {"t_set", "deltaT"}, i;
+	    conexion_t config;
+	    char flagt_set = 0, flagdeltaT = 0;
+	
+	    if ((conf = fopen(filename,"rt")) == NULL)  
+	    {
+	 printf("No se encontro archivo de configuracion\n");
+	        config.t = 0;
+	        config.t_set = 0;
+	        config.deltaT = 0;
+	        
+	        if(config.t == 0){
+	        	printf("Sin conexion\n");
+							 }
+	        return config;
+	    }
+	    fgets(cadena, 40, conf);
+	    do
+	    {
+	        key = cadena;
+	        if ((*key) != '#' && strlen(key) >= 0)
+	        {   
+	            val = getKey(key); // modifica a key para que solo contenga la clave, y devuelve
+	            
+	            for (i = 0; i < 2; i++)
+	            { 
+	                if (!strcmp(key, variables[i]))
+	                {
+	                    switch (i)
+	                    {
+	                    case 0:
+	                        config.t_set = atoi(val); // la funcion atoi convierte una cadena en un numero entero (ascii to int)
+	                        flagt_set = 1;
+	                        break;
+	                    case 1:
+	                        config.deltaT = atoi(val);
+	                        flagdeltaT =1;
+	                        break;
+	                    }
+	                }
+	            }
+	        }
+	        fgets(cadena, 40, conf);
+	    } while (!feof(conf));
+	    if(flagt_set && flagdeltaT) {
+	        
+	        return config;
+	    } else {
+	        config.t = 0;
+	        config.t_set = 0;
+	        config.deltaT = 0;
+	        printf("Sin conexion\n");
+	        
+	        return config;
+	    }    
+	}
+	    
+	char leerconexion(void){
+	    char conex;
+	    
+	    printf("\r Desea conectarse al Protocolo BGP? \n");
+	    scanf("%c", &conex);
+	    
+	 switch (conex)
+	        {
+	        case 'n':
+	            estado = f_idle(config);
+	            break;
+	        case 's':
+	            estado = f_connect(config);
+	            break;   
+	    
+		return (char)conex;    
+			}
+	
+	void conectando(conexion_t conexion)
+	{
+	    printf("\r Conectado al procolo BGP");
+	} 
