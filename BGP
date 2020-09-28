@@ -1,0 +1,54 @@
+// Mis archivos
+
+
+#include "mylib.h"
+
+conexion_t f_inicio(void){ // lee el archivo de configuraciÃ³n y carga las variables.
+    conexion_t config;
+    config = parseConfig("config.conf");
+    return config;
+}
+estados_t f_idle(conexion_t config){
+    estados_t estado = idle;    
+    config.t = leerconexion();
+    printf("\rSe encuentra en estado IDLE");
+    return estado;
+
+}
+estados_t f_connect(conexion_t config){
+    estados_t estado = connect;
+    config.t = leerconexion();
+    conectando(config);
+    
+    return (conectado);
+} 
+/*
+estados_t f_open(conexion_t config){
+    estados_t estado = open;    
+    config.t = leerconexion();
+    printf("\r Estado Open");
+    
+    
+}
+estados_t f_keepalive(conexion_t config){
+    estados_t estado = keepalive;    
+    config.t = leerconexion();
+    printf("\rManteniendo conexion");
+    
+    
+}
+estados_t f_notification(conexion_t config){
+    estados_t estado = notification;    
+    config.t = leerconexion();
+    printf("\rFinalizando Conexion");
+    
+    
+}
+estados_t f_stablished(conexion_t config){
+    estados_t estado = stablished;    
+    config.t = leerconexion();
+    printf("\rEn espera");
+    
+   
+} 
+*/
